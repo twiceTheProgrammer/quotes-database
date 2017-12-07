@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>All Quotes</title>
+    <link rel="stylesheet" type="text/css" href="master.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  </head>
+  <body>
+      <div class="quote_container">
+          <div class="quote">
+              <h3>All quotes</h3>
+              <ul class="list-group">
+              </ul>
+          </div>
+      </div>
+  </body>
+</html>
+<script type="text/javascript">
+      $(document).ready(function(){
+            $.ajax({
+                    dataType : 'json' ,
+                    url : 'http://127.0.0.1:8081/all_quotes',
+                    success : function(quote_data){
+                          for (let quote of quote_data){
+                              $('.list-group').append('<li class="list-group-item" name= "id">'+'Author : '+quote.author +'<br>Quote : '+ quote.quote+'<br>Rating : '+quote.rating+'<br><button type="submit" >Update</button></li><br>');
+                          }
+                    }
+            });
+      });
+</script>
