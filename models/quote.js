@@ -4,7 +4,7 @@ var Schema = mongoose.Schema;
 var quoteSchema = new Schema({
   author: String,
   quote:String ,
-  rating : Number
+  rating : Number 
 });
 var Quote = mongoose.model('Quote', quoteSchema);
 

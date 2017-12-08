@@ -1,0 +1,114 @@
+<html>
+    <head>
+      <!--
+===================== bootrap and jquery cdn ================================
+    -->
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    </head>
+   <body>
+     <h3 class="display-5 text-center">Mongo database activity</h3>
+     <hr>
+      <div class="container">
+          <div class="row quote-manipulation">
+              <div class="col">
+                  <h3 class="display-6 text-center">Create Quote</h3>
+                  <form action="http://127.0.0.1:8081/quote" method='POST'>
+                    <div class="form-group" name ="author">
+                         Author <input type="text" class="form-control">
+                         Quote <textarea class="form-control"rows="3" name = "quote"></textarea>
+                         Rate
+                         <br><select name="rating">
+                               <option value="1">1</option>
+                               <option value="2">2</option>
+                               <option value="3">3</option>
+                               <option value="4">4</option>
+                               <option value="5">5</option>
+                               <option value="6">6</option>
+                         </select><br>
+                         <br><input class= "btn btn-block btn-dark view_quotes"type="submit" value="Submit">
+                    </div>
+                  </form>
+              </div>
+          </div>
+          <div class="row">
+                <div class="col-sm-12">
+                    <h3 class="display-6 text-center">Quotes</h3><br>
+                    <ul class="list-group"></ul>
+              </div>
+        </div>
+      </div>
+   </body>
+</html>
+<script type="text/javascript">
+      $(document).ready(function(){
+                  $.ajax({
+                        dataType : 'json' ,
+                        url : 'http://127.0.0.1:8081/all_quotes',
+                        success : function(quotes){
+                              for (let quote of quotes){
+                                  $('.list-group').append(
+                                        '<li class="list-group-item"> Author :  ' +quote.author
+                                                + '<br>Quote :  '+quote.quote
+                                                +'<br>Rating :  '+quote.rating
+                                                +'<br>Quote ID : '+quote._id
+                                                +'<hr><input type="submit" class="btn float-left btn-primary update" value="Update">'
+                                                +'<input type="submit" class="btn float-right btn-danger delete"  value="delete">'
+                                        +'</li>'
+                                  );
+                              }
+                              $('.update').on('click' , function(){
+
+//==============================  UPDATE CLICKED QUOTE =========================
+
+                                    $('.container')
+                                          .html(
+                                              '<div class="row">'
+                                                  +'<div class="col-sm-12">'
+                                                        +'<h3 class="display-6 text-center">Update Quote</h3>'
+                                                        +'<hr>'
+                                                        +'<form action="http://127.0.0.1:8081/update" method="POST">'
+                                                              +'<div class="form-group" name ="author">'
+                                                              +'Quote ID <input type="text" name="id" class="form-control">'
+                                                              +'Author <input type="text" class="form-control author" name="author">'
+                                                              +'Quote <textarea class="form-control quote"rows="3" name = "quote"></textarea>'
+                                                              +'Rate <br>'
+                                                                  +'<select name="rating">'
+                                                                      +'<option value="1">1</option>'
+                                                                      +'<option value="2">2</option>'
+                                                                      +'<option value="3">3</option>'
+                                                                      +'<option value="4">4</option>'
+                                                                      +'<option value="5">5</option>'
+                                                                      +'<option value="6">6</option>'
+                                                                  +'</select><br>'
+                                                              +'<br><input class= "btn btn-block btn-dark update"type="submit" value="Update">'
+                                                         +'</form>'
+                                                   +'</div>'
+                                              +'</div>'
+                                        );
+
+                                });
+
+
+                  //================================ DELETE CLICKED QUOTE =====================
+
+                                $('.delete').on('click' , function(){
+                                        $('.container').html(
+                                              '<div class="row">'
+                                                    +'<div class="col-sm-12">'
+                                                            +'<h3 class="display-6 text-center">Delete Quote</h3>'
+                                                            +'<hr>'
+                                                            +'<form action="http://127.0.0.1:8081/delete" method="POST">'
+                                                                +'<div class="form-group">'
+                                                                   +'Quote ID <input type="text" name="id" class="form-control">'
+                                                                   +'<br><input type="submit" class="btn btn-block btn-danger btn-sm" value="delete">'
+                                                                +'</div>'
+                                                            +'</form>'
+                                                +'</div>'
+                                        );
+                                });
+                            }
+                      });
+
+      });
+</script>
